@@ -1,0 +1,6 @@
+@MaplenouApi_HostAddress = http://localhost:5147
+
+GET {{MaplenouApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
