@@ -1,4 +1,11 @@
+// <copyright file="Program.cs" company="Maplenou">
+// Copyright (c) PlaceholderCompany. All rights reserved.
+// </copyright>
+
 using DotNetEnv;
+using MaplenouApi.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -9,6 +16,10 @@ Env.Load(); // load environment variable in .env
 
 var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
     ?? throw new Exception("CONNECTION_STRING is missing in .env");
+
+// EF Core with PostgreSQL
+builder.Services.AddDbContext<ApplicationDBContext>(options =>
+    options.UseNpgsql(connectionString));
 
 var app = builder.Build();
 
