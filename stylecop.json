@@ -1,0 +1,36 @@
+{
+  "settings": {
+    "documentationRules": {
+      "companyName": "Maplenou",
+      "copyrightText": "Copyright © Maplenou 2025",
+      "documentInterfaces": true,
+      "documentPrivateFields": false,
+      "documentPrivateProperties": false
+    },
+    "indentation": {
+      "indentationSize": 4,
+      "tabSize": 4,
+      "useTabs": false
+    },
+    "namingRules": {
+      "allowCommonHungarianPrefixes": false,
+      "globalUsingDirective": false,
+      "typeName": "PascalCase",
+      "variableName": "camelCase"
+    },
+    "orderingRules": {
+      "systemUsingDirectivesFirst": true,
+      "usingDirectivesPlacement": "outsideNamespace"
+    },
+    "layoutRules": {
+      "newlineAtEndOfFile": "require"
+    },
+    "maintainabilityRules": {
+      "allowTaskReturningMethods": false
+    },
+    "spacingRules": {
+      "addSpaceAfterKeywordsInControlFlowStatements": true,
+      "addSpaceAfterKeywordsInMethodDeclaration": true
+    }
+  }
+}
