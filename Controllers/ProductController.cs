@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -39,7 +40,7 @@ namespace MaplenouApi.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            var products = this._context.Products.ToList();
+            var products = this._context.Products.ToList().Select(p => p.ToProductDto());
             return this.Ok(products);
         }
 
