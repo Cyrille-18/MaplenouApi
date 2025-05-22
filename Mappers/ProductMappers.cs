@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using MaplenouApi.Dtos;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Models;
 
 namespace MaplenouApi.Mappers
@@ -32,6 +32,23 @@ namespace MaplenouApi.Mappers
                 Quantity = productModel.Quantity,
                 ImageUrl = productModel.ImageUrl,
                 CreatedOn = productModel.CreatedOn,
+            };
+        }
+
+        /// <summary>
+        /// Maps a <see cref="CreateProductRequestDto"/> to a <see cref="Product"/> model.
+        /// </summary>
+        /// <param name="productRequestDto">The product request DTO to map.</param>
+        /// <returns>A <see cref="Product"/> instance created from the DTO.</returns>
+        public static Product ToProductFromCreateDto(this CreateProductRequestDto productRequestDto)
+        {
+            return new Product
+            {
+                Title = productRequestDto.Title,
+                Description = productRequestDto.Description,
+                Price = productRequestDto.Price,
+                Quantity = productRequestDto.Quantity,
+                ImageUrl = productRequestDto.ImageUrl,
             };
         }
     }
