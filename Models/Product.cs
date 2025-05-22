@@ -1,13 +1,14 @@
 // <copyright file="Product.cs" company="Maplenou">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// Copyright © Maplenou 2025
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
 namespace MaplenouApi.Models
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
     /// <summary>
     /// Represents a product in the system.
     /// </summary>
@@ -46,6 +47,6 @@ namespace MaplenouApi.Models
         /// <summary>
         /// Gets or sets Creation Date.
         /// </summary>
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
 }
