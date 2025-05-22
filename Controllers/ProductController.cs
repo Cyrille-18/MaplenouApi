@@ -58,7 +58,7 @@ namespace MaplenouApi.Controllers
                 return this.NotFound();
             }
 
-            return this.Ok(product);
+            return this.Ok(product.ToProductDto());
         }
     }
 }
