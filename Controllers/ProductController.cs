@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -59,6 +60,20 @@ namespace MaplenouApi.Controllers
             }
 
             return this.Ok(product.ToProductDto());
+        }
+
+        /// <summary>
+        /// Creates a new product in the database.
+        /// </summary>
+        /// <param name="productRequestDto">The product data to create.</param>
+        /// <returns>The created product with its unique identifier.</returns>
+        [HttpPost]
+        public IActionResult Create([FromBody] CreateProductRequestDto productRequestDto)
+        {
+            var productModel = productRequestDto.ToProductFromCreateDto();
+            this._context.Products.Add(productModel);
+            this._context.SaveChanges();
+            return this.CreatedAtAction(nameof(this.GetById), new { id = productModel.Id }, productModel.ToProductDto());
         }
     }
 }
