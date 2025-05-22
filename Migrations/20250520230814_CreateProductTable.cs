@@ -1,14 +1,14 @@
 ﻿// <copyright file="20250520230814_CreateProductTable.cs" company="Maplenou">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// Copyright © Maplenou 2025
 // </copyright>
+
+using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace MaplenouApi.Migrations
 {
-    using System;
-    using Microsoft.EntityFrameworkCore.Migrations;
-
     /// <inheritdoc />
     public partial class CreateProductTable : Migration
     {

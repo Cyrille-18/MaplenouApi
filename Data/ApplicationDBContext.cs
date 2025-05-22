@@ -1,16 +1,16 @@
 // <copyright file="ApplicationDBContext.cs" company="Maplenou">
-// Copyright (c) PlaceholderCompany. All rights reserved.
+// Copyright © Maplenou 2025
 // </copyright>
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using MaplenouApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaplenouApi.Data
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-    using MaplenouApi.Models;
-    using Microsoft.EntityFrameworkCore;
-
     /// <summary>
     /// Represents the application database context.
     /// </summary>
