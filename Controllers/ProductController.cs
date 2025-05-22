@@ -42,5 +42,22 @@ namespace MaplenouApi.Controllers
             var products = this._context.Products.ToList();
             return this.Ok(products);
         }
+
+        /// <summary>
+        /// Retrieves a product by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product.</param>
+        /// <returns>The product with the specified ID, or NotFound if it does not exist.</returns>
+        [HttpGet("{id}")]
+        public IActionResult GetById(Guid id)
+        {
+            var product = this._context.Products.Find(id);
+            if (product == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(product);
+        }
     }
 }
