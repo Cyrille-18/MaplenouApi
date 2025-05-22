@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace MaplenouApi.Dtos
+namespace MaplenouApi.Dtos.Products
 {
     /// <summary>
     /// Data Transfer Object representing a product.
@@ -47,6 +47,6 @@ namespace MaplenouApi.Dtos
         /// <summary>
         /// Gets or sets the date and time when the product was created.
         /// </summary>
-        public DateTime CreatedOn { get; set; } = DateTime.Now;
+        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
 }
