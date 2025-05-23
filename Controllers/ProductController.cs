@@ -75,5 +75,32 @@ namespace MaplenouApi.Controllers
             this._context.SaveChanges();
             return this.CreatedAtAction(nameof(this.GetById), new { id = productModel.Id }, productModel.ToProductDto());
         }
+
+        /// <summary>
+        /// Updates an existing product with the specified ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product to update.</param>
+        /// <param name="updateDto">The updated product data.</param>
+        /// <returns>The updated product, or NotFound if it does not exist.</returns>
+        [HttpPut]
+        [Route("{id}")]
+        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateProductRequestDto updateDto)
+        {
+            var productModel = this._context.Products.FirstOrDefault(p => p.Id == id);
+            if (productModel == null)
+            {
+                return this.NotFound();
+            }
+
+            productModel.Title = updateDto.Title;
+            productModel.Description = updateDto.Description;
+            productModel.Price = updateDto.Price;
+            productModel.Quantity = updateDto.Quantity;
+            productModel.ImageUrl = updateDto.ImageUrl;
+
+            this._context.SaveChanges();
+
+            return this.Ok(productModel.ToProductDto());
+        }
     }
 }
