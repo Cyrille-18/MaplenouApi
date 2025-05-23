@@ -4,6 +4,8 @@
 
 using DotNetEnv;
 using MaplenouApi.Data;
+using MaplenouApi.Interfaces;
+using MaplenouApi.Repository;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,8 @@ var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING")
 // EF Core with PostgreSQL
 builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
+
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 var app = builder.Build();
 

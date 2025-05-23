@@ -10,6 +10,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
 using MaplenouApi.Dtos.Products;
+using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -24,14 +25,17 @@ namespace MaplenouApi.Controllers
     public class ProductController : ControllerBase
     {
         private readonly ApplicationDBContext _context;
+        private readonly IProductRepository _productRepo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
         /// <param name="context">The database context used for accessing product data.</param>
-        public ProductController(ApplicationDBContext context)
+        /// <param name="productRepo">The product repository used for product-related operations.</param>
+        public ProductController(ApplicationDBContext context, IProductRepository productRepo)
         {
             this._context = context;
+            this._productRepo = productRepo;
         }
 
         /// <summary>
@@ -39,10 +43,11 @@ namespace MaplenouApi.Controllers
         /// </summary>
         /// <returns>A list of all products.</returns>
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var products = this._context.Products.ToList().Select(p => p.ToProductDto());
-            return this.Ok(products);
+            var products = await this._productRepo.GetAllAsync();
+            var productDtos = products.Select(p => p.ToProductDto());
+            return this.Ok(productDtos);
         }
 
         /// <summary>
