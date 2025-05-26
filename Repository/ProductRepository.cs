@@ -49,5 +49,19 @@ namespace MaplenouApi.Repository
         {
             return await this._context.Products.FindAsync(id);
         }
+
+        /// <summary>
+        /// Creates a new product asynchronously and saves it to the database.
+        /// </summary>
+        /// <param name="productModel">The product model to create.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the created product.
+        /// </returns>
+        public async Task<Product> CreateAsync(Product productModel)
+        {
+            await this._context.Products.AddAsync(productModel);
+            await this._context.SaveChangesAsync();
+            return productModel;
+        }
     }
 }
