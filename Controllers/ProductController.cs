@@ -114,16 +114,13 @@ namespace MaplenouApi.Controllers
         /// <returns>NoContent if the product was deleted, or NotFound if it does not exist.</returns>
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var productModel = this._context.Products.FirstOrDefault(p => p.Id == id);
+            var productModel = await this._productRepo.DeleteAsync(id);
             if (productModel == null)
             {
                 return this.NotFound();
             }
-
-            this._context.Products.Remove(productModel);
-            this._context.SaveChanges();
 
             return this.NoContent();
         }
