@@ -20,5 +20,12 @@ namespace MaplenouApi.Interfaces
         /// </summary>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
         Task<List<Product>> GetAllAsync();
+
+        /// <summary>
+        /// Asynchronously retrieves a product by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the product if found; otherwise, null.</returns>
+        Task<Product?> GetByIdAsync(Guid id);
     }
 }
