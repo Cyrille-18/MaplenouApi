@@ -10,6 +10,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
 using MaplenouApi.Dtos.Products;
+using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -41,11 +42,12 @@ namespace MaplenouApi.Controllers
         /// <summary>
         /// Retrieves all products from the database.
         /// </summary>
+        /// <param name="queryObject">The query parameters for filtering and pagination of products.</param>
         /// <returns>A list of all products.</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ProductQueryObject queryObject)
         {
-            var products = await this._productRepo.GetAllAsync();
+            var products = await this._productRepo.GetAllAsync(queryObject);
             var productDtos = products.Select(p => p.ToProductDto());
             return this.Ok(productDtos);
         }
