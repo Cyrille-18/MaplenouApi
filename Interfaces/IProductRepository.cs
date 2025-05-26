@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Models;
 
 namespace MaplenouApi.Interfaces
@@ -34,5 +35,13 @@ namespace MaplenouApi.Interfaces
         /// <param name="productModel">The product model to create.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the created product.</returns>
         Task<Product> CreateAsync(Product productModel);
+
+        /// <summary>
+        /// Asynchronously updates an existing product in the repository.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product to update.</param>
+        /// <param name="productDto">The DTO containing updated product information.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the updated product if found; otherwise, null.</returns>
+        Task<Product?> UpdateAsync(Guid id, UpdateProductRequestDto productDto);
     }
 }
