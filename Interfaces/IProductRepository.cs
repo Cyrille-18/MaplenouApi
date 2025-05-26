@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Dtos.Products;
+using MaplenouApi.Helpers;
 using MaplenouApi.Models;
 
 namespace MaplenouApi.Interfaces
@@ -19,8 +20,9 @@ namespace MaplenouApi.Interfaces
         /// <summary>
         /// Asynchronously retrieves all products from the repository.
         /// </summary>
+        /// <param name="queryObject">The query object containing filtering and pagination options.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
-        Task<List<Product>> GetAllAsync();
+        Task<List<Product>> GetAllAsync(ProductQueryObject queryObject);
 
         /// <summary>
         /// Asynchronously retrieves a product by its unique identifier.
