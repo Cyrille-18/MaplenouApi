@@ -73,11 +73,10 @@ namespace MaplenouApi.Controllers
         /// <param name="productRequestDto">The product data to create.</param>
         /// <returns>The created product with its unique identifier.</returns>
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProductRequestDto productRequestDto)
+        public async Task<ActionResult> Create([FromBody] CreateProductRequestDto productRequestDto)
         {
             var productModel = productRequestDto.ToProductFromCreateDto();
-            this._context.Products.Add(productModel);
-            this._context.SaveChanges();
+            await this._productRepo.CreateAsync(productModel);
             return this.CreatedAtAction(nameof(this.GetById), new { id = productModel.Id }, productModel.ToProductDto());
         }
 
