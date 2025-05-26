@@ -88,9 +88,9 @@ namespace MaplenouApi.Controllers
         /// <returns>The updated product, or NotFound if it does not exist.</returns>
         [HttpPut]
         [Route("{id}")]
-        public IActionResult Update([FromRoute] Guid id, [FromBody] UpdateProductRequestDto updateDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProductRequestDto updateDto)
         {
-            var productModel = this._context.Products.FirstOrDefault(p => p.Id == id);
+            var productModel = await this._productRepo.UpdateAsync(id, updateDto);
             if (productModel == null)
             {
                 return this.NotFound();
@@ -102,7 +102,7 @@ namespace MaplenouApi.Controllers
             productModel.Quantity = updateDto.Quantity;
             productModel.ImageUrl = updateDto.ImageUrl;
 
-            this._context.SaveChanges();
+            await this._context.SaveChangesAsync();
 
             return this.Ok(productModel.ToProductDto());
         }
