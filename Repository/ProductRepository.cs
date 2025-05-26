@@ -90,5 +90,26 @@ namespace MaplenouApi.Repository
             await this._context.SaveChangesAsync();
             return existingProduct;
         }
+
+        /// <summary>
+        /// Deletes a product by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product to delete.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the deleted product if found; otherwise, null.
+        /// </returns>
+        public async Task<Product?> DeleteAsync(Guid id)
+        {
+            var productModel = await this._context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (productModel == null)
+            {
+                return null;
+            }
+
+            this._context.Products.Remove(productModel);
+            await this._context.SaveChangesAsync();
+
+            return productModel;
+        }
     }
 }
