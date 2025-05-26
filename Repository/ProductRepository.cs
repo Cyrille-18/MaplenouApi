@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -62,6 +63,32 @@ namespace MaplenouApi.Repository
             await this._context.Products.AddAsync(productModel);
             await this._context.SaveChangesAsync();
             return productModel;
+        }
+
+        /// <summary>
+        /// Updates an existing product asynchronously with the provided data.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product to update.</param>
+        /// <param name="productDto">The DTO containing updated product information.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the updated product if found; otherwise, null.
+        /// </returns>
+        public async Task<Product?> UpdateAsync(Guid id, UpdateProductRequestDto productDto)
+        {
+            var existingProduct = await this._context.Products.FirstOrDefaultAsync(p => p.Id == id);
+            if (existingProduct == null)
+            {
+                return null;
+            }
+
+            existingProduct.Title = productDto.Title;
+            existingProduct.Description = productDto.Description;
+            existingProduct.Price = productDto.Price;
+            existingProduct.Quantity = productDto.Quantity;
+            existingProduct.ImageUrl = productDto.ImageUrl;
+
+            await this._context.SaveChangesAsync();
+            return existingProduct;
         }
     }
 }
