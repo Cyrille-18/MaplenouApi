@@ -38,10 +38,5 @@ namespace MaplenouApi.Dtos.Products
         /// Gets or sets product image.
         /// </summary>
         public string ImageUrl { get; set; } = string.Empty;
-
-        /// <summary>
-        /// Gets or sets the date and time when the product was created.
-        /// </summary>
-        public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
     }
 }
