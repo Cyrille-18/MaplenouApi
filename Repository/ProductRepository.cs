@@ -37,5 +37,17 @@ namespace MaplenouApi.Repository
         {
             return this._context.Products.ToListAsync();
         }
+
+        /// <summary>
+        /// Retrieves a product by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the product if found; otherwise, null.
+        /// </returns>
+        public async Task<Product?> GetByIdAsync(Guid id)
+        {
+            return await this._context.Products.FindAsync(id);
+        }
     }
 }
