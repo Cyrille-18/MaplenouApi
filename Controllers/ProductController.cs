@@ -56,9 +56,9 @@ namespace MaplenouApi.Controllers
         /// <param name="id">The unique identifier of the product.</param>
         /// <returns>The product with the specified ID, or NotFound if it does not exist.</returns>
         [HttpGet("{id}")]
-        public IActionResult GetById(Guid id)
+        public async Task<IActionResult> GetById(Guid id)
         {
-            var product = this._context.Products.Find(id);
+            var product = await this._context.Products.FindAsync(id);
             if (product == null)
             {
                 return this.NotFound();
