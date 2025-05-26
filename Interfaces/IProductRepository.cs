@@ -27,5 +27,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the product.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the product if found; otherwise, null.</returns>
         Task<Product?> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Asynchronously creates a new product in the repository.
+        /// </summary>
+        /// <param name="productModel">The product model to create.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the created product.</returns>
+        Task<Product> CreateAsync(Product productModel);
     }
 }
