@@ -92,19 +92,16 @@ namespace MaplenouApi.Controllers
         [Route("{id}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProductRequestDto updateDto)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
             var productModel = await this._productRepo.UpdateAsync(id, updateDto);
             if (productModel == null)
             {
                 return this.NotFound();
             }
-
-            productModel.Title = updateDto.Title;
-            productModel.Description = updateDto.Description;
-            productModel.Price = updateDto.Price;
-            productModel.Quantity = updateDto.Quantity;
-            productModel.ImageUrl = updateDto.ImageUrl;
-
-            await this._context.SaveChangesAsync();
 
             return this.Ok(productModel.ToProductDto());
         }
