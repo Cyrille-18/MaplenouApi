@@ -10,6 +10,7 @@ using System.Net.Mime;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
 using MaplenouApi.Dtos.Products;
+using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -41,11 +42,12 @@ namespace MaplenouApi.Controllers
         /// <summary>
         /// Retrieves all products from the database.
         /// </summary>
+        /// <param name="queryObject">The query parameters for filtering and pagination of products.</param>
         /// <returns>A list of all products.</returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll()
+        public async Task<IActionResult> GetAll([FromQuery] ProductQueryObject queryObject)
         {
-            var products = await this._productRepo.GetAllAsync();
+            var products = await this._productRepo.GetAllAsync(queryObject);
             var productDtos = products.Select(p => p.ToProductDto());
             return this.Ok(productDtos);
         }
@@ -111,16 +113,13 @@ namespace MaplenouApi.Controllers
         /// <returns>NoContent if the product was deleted, or NotFound if it does not exist.</returns>
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult Delete([FromRoute] Guid id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
-            var productModel = this._context.Products.FirstOrDefault(p => p.Id == id);
+            var productModel = await this._productRepo.DeleteAsync(id);
             if (productModel == null)
             {
                 return this.NotFound();
             }
-
-            this._context.Products.Remove(productModel);
-            this._context.SaveChanges();
 
             return this.NoContent();
         }
