@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
 using MaplenouApi.Dtos.Products;
+using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -33,10 +34,30 @@ namespace MaplenouApi.Repository
         /// <summary>
         /// Retrieves all products asynchronously from the database.
         /// </summary>
+        /// <param name="queryObject">The query object containing filtering, sorting, and pagination options.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
-        public Task<List<Product>> GetAllAsync()
+        public async Task<List<Product>> GetAllAsync(ProductQueryObject queryObject)
         {
-            return this._context.Products.ToListAsync();
+            var products = this._context.Products.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(queryObject.Title))
+            {
+                products = products.Where(p => p.Title.Contains(queryObject.Title));
+            }
+
+            if (!string.IsNullOrWhiteSpace(queryObject.Sortby))
+            {
+                products = queryObject.IsDescending
+                    ? products.OrderByDescending(e => EF.Property<object>(e, queryObject.Sortby))
+                    : products.OrderBy(e => EF.Property<object>(e, queryObject.Sortby));
+            }
+
+            var skip = (queryObject.PageNumber - 1) * queryObject.PageSize;
+
+            return await products
+                .Skip(skip)
+                .Take(queryObject.PageSize)
+                .ToListAsync();
         }
 
         /// <summary>
