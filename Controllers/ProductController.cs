@@ -77,6 +77,11 @@ namespace MaplenouApi.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] CreateProductRequestDto productRequestDto)
         {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
             var productModel = productRequestDto.ToProductFromCreateDto();
             await this._productRepo.CreateAsync(productModel);
             return this.CreatedAtAction(nameof(this.GetById), new { id = productModel.Id }, productModel.ToProductDto());
