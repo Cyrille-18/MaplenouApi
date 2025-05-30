@@ -42,8 +42,9 @@ namespace MaplenouApi.Dtos.Products
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets product image.
+        /// Gets or sets the list of images associated with the product.
         /// </summary>
-        public string ImageUrl { get; set; } = string.Empty;
+        [Required]
+        public List<IFormFile> Images { get; set; } = new();
     }
 }
