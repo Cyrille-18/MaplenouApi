@@ -30,7 +30,7 @@ namespace MaplenouApi.Mappers
                 Description = productModel.Description,
                 Price = productModel.Price,
                 Quantity = productModel.Quantity,
-                ImageUrl = productModel.ImageUrl,
+                ImageUrls = productModel.Images.Select(img => img.ImageUrl).ToList(),
                 CreatedOn = productModel.CreatedOn,
             };
         }
@@ -48,7 +48,6 @@ namespace MaplenouApi.Mappers
                 Description = productRequestDto.Description,
                 Price = productRequestDto.Price,
                 Quantity = productRequestDto.Quantity,
-                ImageUrl = productRequestDto.ImageUrl,
             };
         }
     }
