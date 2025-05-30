@@ -6,6 +6,7 @@ using DotNetEnv;
 using MaplenouApi.Data;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Repository;
+using MaplenouApi.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
     options.UseNpgsql(connectionString));
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IFileService, FileService>();
 
 var app = builder.Build();
 
