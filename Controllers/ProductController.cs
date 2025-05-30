@@ -13,6 +13,7 @@ using MaplenouApi.Dtos.Products;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
+using MaplenouApi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -27,16 +28,19 @@ namespace MaplenouApi.Controllers
     {
         private readonly ApplicationDBContext _context;
         private readonly IProductRepository _productRepo;
+        private readonly IFileService _fileService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductController"/> class.
         /// </summary>
         /// <param name="context">The database context used for accessing product data.</param>
         /// <param name="productRepo">The product repository used for product-related operations.</param>
-        public ProductController(ApplicationDBContext context, IProductRepository productRepo)
+        /// <param name="fileService">The file service used for file-related operations.</param>
+        public ProductController(ApplicationDBContext context, IProductRepository productRepo, IFileService fileService)
         {
             this._context = context;
             this._productRepo = productRepo;
+            this._fileService = fileService;
         }
 
         /// <summary>
@@ -75,7 +79,8 @@ namespace MaplenouApi.Controllers
         /// <param name="productRequestDto">The product data to create.</param>
         /// <returns>The created product with its unique identifier.</returns>
         [HttpPost]
-        public async Task<ActionResult> Create([FromBody] CreateProductRequestDto productRequestDto)
+        [Consumes("multipart/form-data")]
+        public async Task<ActionResult> Create([FromForm] CreateProductRequestDto productRequestDto)
         {
             if (!this.ModelState.IsValid)
             {
@@ -83,6 +88,17 @@ namespace MaplenouApi.Controllers
             }
 
             var productModel = productRequestDto.ToProductFromCreateDto();
+
+            var imageUrls = await this._fileService.SaveProductImagesAsync(productRequestDto.Images);
+            foreach (var url in imageUrls)
+            {
+                productModel.Images.Add(new ProductImage
+                {
+                    ProductId = productModel.Id,
+                    ImageUrl = url,
+                });
+            }
+
             await this._productRepo.CreateAsync(productModel);
             return this.CreatedAtAction(nameof(this.GetById), new { id = productModel.Id }, productModel.ToProductDto());
         }
