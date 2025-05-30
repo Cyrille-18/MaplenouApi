@@ -35,9 +35,9 @@ namespace MaplenouApi.Models
         public float Price { get; set; }
 
         /// <summary>
-        /// Gets or sets product image.
+        /// Gets or sets the list of product images.
         /// </summary>
-        public string ImageUrl { get; set; } = string.Empty;
+        public List<ProductImage> Images { get; set; } = new List<ProductImage>();
 
         /// <summary>
         /// Gets or sets product Quantity.

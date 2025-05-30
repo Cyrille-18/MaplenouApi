@@ -40,9 +40,9 @@ namespace MaplenouApi.Dtos.Products
         public int Quantity { get; set; }
 
         /// <summary>
-        /// Gets or sets product image.
+        /// Gets or sets the list of image URLs associated with the product.
         /// </summary>
-        public string ImageUrl { get; set; } = string.Empty;
+        public List<string> ImageUrls { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the date and time when the product was created.

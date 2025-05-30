@@ -38,7 +38,7 @@ namespace MaplenouApi.Repository
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
         public async Task<List<Product>> GetAllAsync(ProductQueryObject queryObject)
         {
-            var products = this._context.Products.AsQueryable();
+            var products = this._context.Products.Include(p => p.Images).AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(queryObject.Title))
             {
@@ -69,7 +69,7 @@ namespace MaplenouApi.Repository
         /// </returns>
         public async Task<Product?> GetByIdAsync(Guid id)
         {
-            return await this._context.Products.FindAsync(id);
+            return await this._context.Products.Include(p => p.Images).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         /// <summary>
@@ -106,7 +106,6 @@ namespace MaplenouApi.Repository
             existingProduct.Description = productDto.Description;
             existingProduct.Price = productDto.Price;
             existingProduct.Quantity = productDto.Quantity;
-            existingProduct.ImageUrl = productDto.ImageUrl;
 
             await this._context.SaveChangesAsync();
             return existingProduct;
