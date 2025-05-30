@@ -29,5 +29,26 @@ namespace MaplenouApi.Data
         /// Gets or sets the Products table.
         /// </summary>
         public DbSet<Product> Products { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProductImages table.
+        /// </summary>
+        public DbSet<ProductImage> ProductImages { get; set; }
+
+        /// <summary>
+        /// Configures the relationships and schema.
+        /// </summary>
+        /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // One Product has many ProductImages
+            modelBuilder.Entity<Product>()
+                .HasMany(p => p.Images)
+                .WithOne(i => i.Product)
+                .HasForeignKey(i => i.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
+        }
     }
 }
