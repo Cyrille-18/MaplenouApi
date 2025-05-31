@@ -45,6 +45,16 @@ namespace MaplenouApi.Models
         public int Quantity { get; set; }
 
         /// <summary>
+        /// Gets or sets the identifier of the subcategory to which the product belongs.
+        /// </summary>
+        public Guid SubcategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subcategory to which the product belongs.
+        /// </summary>
+        public Subcategory? Subcategory { get; set; }
+
+        /// <summary>
         /// Gets or sets Creation Date.
         /// </summary>
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
