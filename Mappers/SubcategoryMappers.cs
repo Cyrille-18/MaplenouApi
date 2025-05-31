@@ -30,5 +30,22 @@ namespace MaplenouApi.Mappers
                 IsActive = subcategoryRequestDto.IsActive,
             };
         }
+
+        /// <summary>
+        /// Maps a <see cref="Subcategory"/> model to a <see cref="Subcategory"/> DTO.
+        /// </summary>
+        /// <param name="subcategoryModel">The subcategory model to map from.</param>
+        /// <returns>A new <see cref="Subcategory"/> instance populated from the model.</returns>
+        public static Subcategory ToSubcategoryDto(this Subcategory subcategoryModel)
+        {
+            return new Subcategory
+            {
+                Id = subcategoryModel.Id,
+                Name = subcategoryModel.Name,
+                Description = subcategoryModel.Description,
+                IsActive = subcategoryModel.IsActive,
+                Products = subcategoryModel.Products ?? new List<Product>(),
+            };
+        }
     }
 }
