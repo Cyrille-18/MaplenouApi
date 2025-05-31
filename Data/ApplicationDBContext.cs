@@ -36,6 +36,11 @@ namespace MaplenouApi.Data
         public DbSet<ProductImage> ProductImages { get; set; }
 
         /// <summary>
+        /// Gets or sets the Subcategories table.
+        /// </summary>
+        public DbSet<Subcategory> Subcategories { get; set; }
+
+        /// <summary>
         /// Configures the relationships and schema.
         /// </summary>
         /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
@@ -49,6 +54,13 @@ namespace MaplenouApi.Data
                 .WithOne(i => i.Product)
                 .HasForeignKey(i => i.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // One Subcategory has many Products
+            modelBuilder.Entity<Subcategory>()
+                .HasMany(s => s.Products)
+                .WithOne(p => p.Subcategory)
+                .HasForeignKey(p => p.SubcategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
