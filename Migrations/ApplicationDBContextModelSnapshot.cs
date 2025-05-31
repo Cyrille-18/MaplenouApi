@@ -41,11 +41,16 @@ namespace MaplenouApi.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("integer");
 
+                    b.Property<Guid>("SubcategoryId")
+                        .HasColumnType("uuid");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SubcategoryId");
 
                     b.ToTable("Products");
                 });
@@ -70,6 +75,39 @@ namespace MaplenouApi.Migrations
                     b.ToTable("ProductImages");
                 });
 
+            modelBuilder.Entity("MaplenouApi.Models.Subcategory", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Subcategories");
+                });
+
+            modelBuilder.Entity("MaplenouApi.Models.Product", b =>
+                {
+                    b.HasOne("MaplenouApi.Models.Subcategory", "Subcategory")
+                        .WithMany("Products")
+                        .HasForeignKey("SubcategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Subcategory");
+                });
+
             modelBuilder.Entity("MaplenouApi.Models.ProductImage", b =>
                 {
                     b.HasOne("MaplenouApi.Models.Product", "Product")
@@ -84,6 +122,11 @@ namespace MaplenouApi.Migrations
             modelBuilder.Entity("MaplenouApi.Models.Product", b =>
                 {
                     b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("MaplenouApi.Models.Subcategory", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
