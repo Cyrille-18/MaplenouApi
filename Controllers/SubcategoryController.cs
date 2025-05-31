@@ -49,7 +49,24 @@ namespace MaplenouApi.Controllers
 
             var subcategoryModel = subcategoryDto.ToSubcategoryFromCreateDto();
             await this._subcategoryRepo.CreateAsync(subcategoryModel);
-            return this.CreatedAtAction(nameof(GetById), new { id = subcategoryModel.Id }, subcategoryModel);
+            return this.CreatedAtAction(nameof(this.GetById), new { id = subcategoryModel.Id }, subcategoryModel);
+        }
+
+        /// <summary>
+        /// Retrieves a subcategory by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory.</param>
+        /// <returns>An IActionResult containing the subcategory data if found; otherwise, NotFound.</returns>
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var subcategory = await this._subcategoryRepo.GetByIdAsync(id);
+            if (subcategory == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(subcategory.ToSubcategoryDto());
         }
     }
 }
