@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using MaplenouApi.Data;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace MaplenouApi.Repository
 {
@@ -38,6 +39,16 @@ namespace MaplenouApi.Repository
             await this._context.Subcategories.AddAsync(subcategoryModel);
             await this._context.SaveChangesAsync();
             return subcategoryModel;
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves a subcategory by its unique identifier, including its related products.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory.</param>
+        /// <returns>The <see cref="Subcategory"/> entity if found; otherwise, <c>null</c>.</returns>
+        public async Task<Subcategory?> GetByIdAsync(Guid id)
+        {
+            return await this._context.Subcategories.Include(s => s.Products).FirstOrDefaultAsync(s => s.Id == id);
         }
     }
 }
