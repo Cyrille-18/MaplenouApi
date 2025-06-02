@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
 using Microsoft.EntityFrameworkCore;
@@ -49,6 +50,32 @@ namespace MaplenouApi.Repository
         public async Task<Subcategory?> GetByIdAsync(Guid id)
         {
             return await this._context.Subcategories.Include(s => s.Products).FirstOrDefaultAsync(s => s.Id == id);
+        }
+
+        /// <summary>
+        /// Asynchronously retrieves a paginated list of subcategories based on the specified query parameters.
+        /// </summary>
+        /// <param name="queryObject">The query object containing filtering, paging, and inclusion options.</param>
+        /// <returns>A task representing the asynchronous operation, with a list of <see cref="Subcategory"/> entities as the result.</returns>
+        public Task<List<Subcategory>> GetAllAsync(SubcategoryQueryObject queryObject)
+        {
+            var query = this._context.Subcategories.AsQueryable();
+
+            if (!string.IsNullOrEmpty(queryObject.Name))
+            {
+                query = query.Where(s => s.Name.Contains(queryObject.Name));
+            }
+
+            if (queryObject.IncludeProducts)
+            {
+                query = query.Include(s => s.Products);
+            }
+
+            var skip = (queryObject.PageNumber - 1) * queryObject.PageSize;
+
+            return query.Skip(skip)
+                        .Take(queryObject.PageSize)
+                        .ToListAsync();
         }
     }
 }
