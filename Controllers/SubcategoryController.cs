@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Dtos.Subcategory;
+using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +68,19 @@ namespace MaplenouApi.Controllers
             }
 
             return this.Ok(subcategory.ToSubcategoryDto());
+        }
+
+        /// <summary>
+        /// Retrieves all subcategories based on the specified query parameters.
+        /// </summary>
+        /// <param name="queryObject">The query parameters for filtering and pagination.</param>
+        /// <returns>An IActionResult containing a list of subcategory DTOs.</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] SubcategoryQueryObject queryObject)
+        {
+            var subcategories = await this._subcategoryRepo.GetAllAsync(queryObject);
+            var subcategoryDtos = subcategories.Select(s => s.ToSubcategoryDto());
+            return this.Ok(subcategoryDtos);
         }
     }
 }
