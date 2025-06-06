@@ -48,6 +48,7 @@ namespace MaplenouApi.Mappers
                 Description = productRequestDto.Description,
                 Price = productRequestDto.Price,
                 Quantity = productRequestDto.Quantity,
+                SubcategoryId = productRequestDto.SubcategoryId,
             };
         }
     }

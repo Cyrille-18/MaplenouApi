@@ -46,5 +46,11 @@ namespace MaplenouApi.Dtos.Products
         /// </summary>
         [Required]
         public List<IFormFile> Images { get; set; } = new();
+
+        /// <summary>
+        /// Gets or sets the ID of the subcategory the product belongs to.
+        /// </summary>
+        [Required(ErrorMessage = "SubcategoryId is required.")]
+        public Guid SubcategoryId { get; set; }
     }
 }
