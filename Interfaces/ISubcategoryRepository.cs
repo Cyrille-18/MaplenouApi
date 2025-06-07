@@ -45,5 +45,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="subcategoryDto">The DTO containing updated subcategory information.</param>
         /// <returns>The updated <see cref="Subcategory"/> if found; otherwise, <c>null</c>.</returns>
         Task<Subcategory?> UpdateAsync(Guid id, UpdateSubcategoryRequestDto subcategoryDto);
+
+        /// <summary>
+        /// Deletes a subcategory by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to delete.</param>
+        /// <returns>The deleted <see cref="Subcategory"/> if found; otherwise, <c>null</c>.</returns>
+        Task<Subcategory?> DeleteAsync(Guid id);
     }
 }

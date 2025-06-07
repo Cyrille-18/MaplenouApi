@@ -100,5 +100,24 @@ namespace MaplenouApi.Repository
             await this._context.SaveChangesAsync();
             return existingSubcategory;
         }
+
+        /// <summary>
+        /// Asynchronously deletes a subcategory by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to delete.</param>
+        /// <returns>The deleted <see cref="Subcategory"/> entity if found; otherwise, <c>null</c>.</returns>
+        public async Task<Subcategory?> DeleteAsync(Guid id)
+        {
+            var subcategoryModel = await this._context.Subcategories.FirstOrDefaultAsync(s => s.Id == id);
+            if (subcategoryModel == null)
+            {
+                return null;
+            }
+
+            this._context.Subcategories.Remove(subcategoryModel);
+            await this._context.SaveChangesAsync();
+
+            return subcategoryModel;
+        }
     }
 }
