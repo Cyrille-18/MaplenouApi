@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Models;
 
 namespace MaplenouApi.Dtos.Subcategory
@@ -38,6 +39,6 @@ namespace MaplenouApi.Dtos.Subcategory
         /// <summary>
         /// Gets or sets the list of products associated with this subcategory.
         /// </summary>
-        public List<Product> Products { get; set; } = new List<Product>();
+        public List<ProductDto> Products { get; set; } = new();
     }
 }
