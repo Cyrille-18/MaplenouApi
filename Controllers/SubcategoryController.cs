@@ -82,5 +82,29 @@ namespace MaplenouApi.Controllers
             await this._subcategoryRepo.CreateAsync(subcategoryModel);
             return this.CreatedAtAction(nameof(this.GetById), new { id = subcategoryModel.Id }, subcategoryModel);
         }
+
+        /// <summary>
+        /// Updates an existing subcategory by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to update.</param>
+        /// <param name="subcategoryDto">The DTO containing updated subcategory data.</param>
+        /// <returns>An IActionResult indicating the result of the update operation.</returns>
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSubcategoryRequestDto subcategoryDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var subcategoryModel = await this._subcategoryRepo.UpdateAsync(id, subcategoryDto);
+            if (subcategoryModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(subcategoryModel.ToSubcategoryDto());
+        }
     }
 }
