@@ -22,7 +22,7 @@ namespace MaplenouApi.Controllers
     /// <summary>
     /// Controller for handling product-related API requests.
     /// </summary>
-    [Route("Api/Product")]
+    [Route("api/products")]
     [ApiController]
     public class ProductController : ControllerBase
     {
@@ -61,7 +61,7 @@ namespace MaplenouApi.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the product.</param>
         /// <returns>The product with the specified ID, or NotFound if it does not exist.</returns>
-        [HttpGet("{id}")]
+        [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
             var product = await this._context.Products.FindAsync(id);
@@ -110,7 +110,7 @@ namespace MaplenouApi.Controllers
         /// <param name="updateDto">The updated product data.</param>
         /// <returns>The updated product, or NotFound if it does not exist.</returns>
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProductRequestDto updateDto)
         {
             if (!this.ModelState.IsValid)
@@ -133,7 +133,7 @@ namespace MaplenouApi.Controllers
         /// <param name="id">The unique identifier of the product to delete.</param>
         /// <returns>NoContent if the product was deleted, or NotFound if it does not exist.</returns>
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             var productModel = await this._productRepo.DeleteAsync(id);
