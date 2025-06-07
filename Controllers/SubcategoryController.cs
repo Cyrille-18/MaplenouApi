@@ -106,5 +106,23 @@ namespace MaplenouApi.Controllers
 
             return this.Ok(subcategoryModel.ToSubcategoryDto());
         }
+
+        /// <summary>
+        /// Deletes a subcategory by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to delete.</param>
+        /// <returns>An IActionResult indicating the result of the delete operation.</returns>
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var subcategoryModel = await this._subcategoryRepo.DeleteAsync(id);
+            if (subcategoryModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.NoContent();
+        }
     }
 }
