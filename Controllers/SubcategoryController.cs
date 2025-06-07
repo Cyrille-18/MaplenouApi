@@ -20,7 +20,7 @@ namespace MaplenouApi.Controllers
     /// <remarks>
     /// This controller provides endpoints for managing subcategories.
     /// </remarks>
-    [Route("Api/Subcategory")]
+    [Route("api/subcategories")]
     [ApiController]
     public class SubcategoryController : ControllerBase
     {
@@ -36,21 +36,16 @@ namespace MaplenouApi.Controllers
         }
 
         /// <summary>
-        /// Creates a new subcategory.
+        /// Retrieves all subcategories based on the specified query parameters.
         /// </summary>
-        /// <param name="subcategoryDto">The DTO containing subcategory creation data.</param>
-        /// <returns>An IActionResult indicating the result of the creation operation.</returns>
-        [HttpPost]
-        public async Task<IActionResult> CreateAsync([FromBody] CreateSubcategoryRequestDto subcategoryDto)
+        /// <param name="queryObject">The query parameters for filtering and pagination.</param>
+        /// <returns>An IActionResult containing a list of subcategory DTOs.</returns>
+        [HttpGet]
+        public async Task<IActionResult> GetAll([FromQuery] SubcategoryQueryObject queryObject)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
-            var subcategoryModel = subcategoryDto.ToSubcategoryFromCreateDto();
-            await this._subcategoryRepo.CreateAsync(subcategoryModel);
-            return this.CreatedAtAction(nameof(this.GetById), new { id = subcategoryModel.Id }, subcategoryModel);
+            var subcategories = await this._subcategoryRepo.GetAllAsync(queryObject);
+            var subcategoryDtos = subcategories.Select(s => s.ToSubcategoryDto());
+            return this.Ok(subcategoryDtos);
         }
 
         /// <summary>
@@ -71,16 +66,21 @@ namespace MaplenouApi.Controllers
         }
 
         /// <summary>
-        /// Retrieves all subcategories based on the specified query parameters.
+        /// Creates a new subcategory.
         /// </summary>
-        /// <param name="queryObject">The query parameters for filtering and pagination.</param>
-        /// <returns>An IActionResult containing a list of subcategory DTOs.</returns>
-        [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery] SubcategoryQueryObject queryObject)
+        /// <param name="subcategoryDto">The DTO containing subcategory creation data.</param>
+        /// <returns>An IActionResult indicating the result of the creation operation.</returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateSubcategoryRequestDto subcategoryDto)
         {
-            var subcategories = await this._subcategoryRepo.GetAllAsync(queryObject);
-            var subcategoryDtos = subcategories.Select(s => s.ToSubcategoryDto());
-            return this.Ok(subcategoryDtos);
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var subcategoryModel = subcategoryDto.ToSubcategoryFromCreateDto();
+            await this._subcategoryRepo.CreateAsync(subcategoryModel);
+            return this.CreatedAtAction(nameof(this.GetById), new { id = subcategoryModel.Id }, subcategoryModel);
         }
     }
 }
