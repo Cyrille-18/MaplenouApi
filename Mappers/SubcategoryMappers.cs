@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Products;
 using MaplenouApi.Dtos.Subcategory;
 using MaplenouApi.Models;
 
@@ -36,15 +37,24 @@ namespace MaplenouApi.Mappers
         /// </summary>
         /// <param name="subcategoryModel">The subcategory model to map from.</param>
         /// <returns>A new <see cref="Subcategory"/> instance populated from the model.</returns>
-        public static Subcategory ToSubcategoryDto(this Subcategory subcategoryModel)
+        public static SubcategoryDto ToSubcategoryDto(this Subcategory subcategoryModel)
         {
-            return new Subcategory
+            return new SubcategoryDto
             {
                 Id = subcategoryModel.Id,
                 Name = subcategoryModel.Name,
                 Description = subcategoryModel.Description,
                 IsActive = subcategoryModel.IsActive,
-                Products = subcategoryModel.Products ?? new List<Product>(),
+                Products = subcategoryModel.Products?.Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Description = p.Description,
+                    Price = p.Price,
+                    Quantity = p.Quantity,
+                    ImageUrls = p.Images.Select(img => img.ImageUrl).ToList(),
+                    CreatedOn = p.CreatedOn,
+                }).ToList() ?? new(),
             };
         }
     }

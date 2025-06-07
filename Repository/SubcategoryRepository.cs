@@ -68,7 +68,7 @@ namespace MaplenouApi.Repository
 
             if (queryObject.IncludeProducts)
             {
-                query = query.Include(s => s.Products);
+                query = query.Include(s => s.Products).ThenInclude(p => p.Images);
             }
 
             var skip = (queryObject.PageNumber - 1) * queryObject.PageSize;
