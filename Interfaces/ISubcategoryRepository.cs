@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Subcategory;
 using MaplenouApi.Helpers;
 using MaplenouApi.Models;
 
@@ -36,5 +37,13 @@ namespace MaplenouApi.Interfaces
         /// <param name="queryObject">The query object containing filtering and pagination options for subcategories.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a collection of <see cref="Subcategory"/> objects.</returns>
         Task<List<Subcategory>> GetAllAsync(SubcategoryQueryObject queryObject);
+
+        /// <summary>
+        /// Updates an existing subcategory asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to update.</param>
+        /// <param name="subcategoryDto">The DTO containing updated subcategory information.</param>
+        /// <returns>The updated <see cref="Subcategory"/> if found; otherwise, <c>null</c>.</returns>
+        Task<Subcategory?> UpdateAsync(Guid id, UpdateSubcategoryRequestDto subcategoryDto);
     }
 }

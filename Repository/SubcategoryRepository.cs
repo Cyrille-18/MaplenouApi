@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.Subcategory;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
@@ -76,6 +77,28 @@ namespace MaplenouApi.Repository
             return query.Skip(skip)
                         .Take(queryObject.PageSize)
                         .ToListAsync();
+        }
+
+        /// <summary>
+        /// Asynchronously updates an existing subcategory with the specified values.
+        /// </summary>
+        /// <param name="id">The unique identifier of the subcategory to update.</param>
+        /// <param name="subcategoryDto">The DTO containing updated subcategory values.</param>
+        /// <returns>The updated <see cref="Subcategory"/> entity if found; otherwise, <c>null</c>.</returns>
+        public async Task<Subcategory?> UpdateAsync(Guid id, UpdateSubcategoryRequestDto subcategoryDto)
+        {
+            var existingSubcategory = await this._context.Subcategories.FirstOrDefaultAsync(s => s.Id == id);
+            if (existingSubcategory == null)
+            {
+                return null;
+            }
+
+            existingSubcategory.Name = subcategoryDto.Name;
+            existingSubcategory.Description = subcategoryDto.Description;
+            existingSubcategory.IsActive = subcategoryDto.IsActive;
+
+            await this._context.SaveChangesAsync();
+            return existingSubcategory;
         }
     }
 }
