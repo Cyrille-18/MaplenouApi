@@ -38,5 +38,15 @@ namespace MaplenouApi.Models
         /// Gets or sets the list of products associated with this subcategory.
         /// </summary>
         public List<Product> Products { get; set; } = new List<Product>();
+
+        /// <summary>
+        /// Gets or sets the ID of the category to which this subcategory belongs.
+        /// </summary>
+        public Guid CategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the category to which this subcategory belongs.
+        /// </summary>
+        public Category? Category { get; set; }
     }
 }
