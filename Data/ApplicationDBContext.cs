@@ -41,6 +41,11 @@ namespace MaplenouApi.Data
         public DbSet<Subcategory> Subcategories { get; set; }
 
         /// <summary>
+        /// Gets or sets the Categories table.
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+        /// <summary>
         /// Configures the relationships and schema.
         /// </summary>
         /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
@@ -61,6 +66,13 @@ namespace MaplenouApi.Data
                 .WithOne(p => p.Subcategory)
                 .HasForeignKey(p => p.SubcategoryId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            // One Category has many Subcategories
+            modelBuilder.Entity<Category>()
+                .HasMany(c => c.Subcategories)
+                .WithOne(s => s.Category)
+                .HasForeignKey(s => s.CategoryId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
