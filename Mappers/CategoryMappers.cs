@@ -32,5 +32,19 @@ namespace MaplenouApi.Mappers
                 Subcategories = categoryModel.Subcategories?.Select(s => s.ToSubcategoryDto()).ToList() ?? new List<SubcategoryDto>(),
             };
         }
+
+        /// <summary>
+        /// Maps a <see cref="CreateCategoryRequestDto"/> to a <see cref="Category"/> model.
+        /// </summary>
+        /// <param name="categoryRequestDto">The DTO containing category creation data.</param>
+        /// <returns>A <see cref="Category"/> model populated from the DTO.</returns>
+        public static Category ToCategoryFromCreateDto(this CreateCategoryRequestDto categoryRequestDto)
+        {
+            return new Category
+            {
+                Name = categoryRequestDto.Name,
+                Description = categoryRequestDto.Description,
+            };
+        }
     }
 }
