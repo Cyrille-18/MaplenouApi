@@ -29,5 +29,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="categoryModel">The category model to create.</param>
         /// <returns>A task representing the asynchronous operation, with the created <see cref="Category"/> as the result.</returns>
         Task<Category> CreateAsync(Category categoryModel);
+
+        /// <summary>
+        /// Asynchronously retrieves a category by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category.</param>
+        /// <returns>A task representing the asynchronous operation, with the <see cref="Category"/> entity as the result, or null if not found.</returns>
+        Task<Category?> GetByIdAsync(Guid id);
     }
 }
