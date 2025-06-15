@@ -68,5 +68,15 @@ namespace MaplenouApi.Repository
             await this._context.SaveChangesAsync();
             return categoryModel;
         }
+
+        /// <summary>
+        /// Retrieves a category by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the category if found; otherwise, null.</returns>
+        public async Task<Category?> GetByIdAsync(Guid id)
+        {
+            return await this._context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
     }
 }

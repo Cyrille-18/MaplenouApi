@@ -47,6 +47,23 @@ namespace MaplenouApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves a category by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category.</param>
+        /// <returns>The category DTO if found; otherwise, NotFound.</returns>
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var category = await this._categoryRepo.GetByIdAsync(id);
+            if (category == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(category.ToCategoryDto());
+        }
+
+        /// <summary>
         /// Creates a new category based on the provided request data.
         /// </summary>
         /// <param name="categoryRequestDto">The DTO containing the data for the new category.</param>
@@ -61,7 +78,7 @@ namespace MaplenouApi.Controllers
 
             var categoryModel = categoryRequestDto.ToCategoryFromCreateDto();
             await this._categoryRepo.CreateAsync(categoryModel);
-            return this.Ok(categoryModel.ToCategoryDto());
+            return this.CreatedAtAction(nameof(this.GetById), new { id = categoryModel.Id }, categoryModel.ToCategoryDto());
         }
     }
 }
