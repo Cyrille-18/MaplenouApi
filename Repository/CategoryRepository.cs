@@ -17,7 +17,7 @@ namespace MaplenouApi.Repository
     /// <summary>
     /// Repository class for handling Category related data operations.
     /// </summary>
-    public class CategoryRepository : ICategory
+    public class CategoryRepository : ICategoryRepository
     {
         private readonly ApplicationDBContext _context;
 
@@ -55,6 +55,18 @@ namespace MaplenouApi.Repository
                 .Skip(skip)
                 .Take(queryObject.PageSize)
                 .ToListAsync();
+        }
+
+        /// <summary>
+        /// Creates a new category asynchronously and saves it to the database.
+        /// </summary>
+        /// <param name="categoryModel">The category model to create.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the created category.</returns>
+        public async Task<Category> CreateAsync(Category categoryModel)
+        {
+            await this._context.Categories.AddAsync(categoryModel);
+            await this._context.SaveChangesAsync();
+            return categoryModel;
         }
     }
 }
