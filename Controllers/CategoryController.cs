@@ -80,5 +80,30 @@ namespace MaplenouApi.Controllers
             await this._categoryRepo.CreateAsync(categoryModel);
             return this.CreatedAtAction(nameof(this.GetById), new { id = categoryModel.Id }, categoryModel.ToCategoryDto());
         }
+
+        /// <summary>
+        /// Updates an existing category with the specified ID using the provided data.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to update.</param>
+        /// <param name="categoryDto">The DTO containing the updated category data.</param>
+        /// <returns>The updated category as a DTO if successful; otherwise, NotFound or BadRequest.</returns>
+        /// <summary>
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateCategoryRequestDto categoryDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var updatedCategory = await this._categoryRepo.UpdateAsync(id, categoryDto);
+            if (updatedCategory == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(updatedCategory.ToCategoryDto());
+        }
     }
 }

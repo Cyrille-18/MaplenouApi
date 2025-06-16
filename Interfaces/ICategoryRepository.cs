@@ -6,8 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Category;
 using MaplenouApi.Helpers;
 using MaplenouApi.Models;
+using Microsoft.EntityFrameworkCore.Update.Internal;
 
 namespace MaplenouApi.Interfaces
 {
@@ -36,5 +38,14 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the category.</param>
         /// <returns>A task representing the asynchronous operation, with the <see cref="Category"/> entity as the result, or null if not found.</returns>
         Task<Category?> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Asynchronously updates an existing category with the specified identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to update.</param>
+        /// <param name="categoryDto">The data transfer object containing updated category information.</param>
+        /// <returns>A task representing the asynchronous operation, with the updated <see cref="Category"/> entity as the result, or null if not found.</returns>
+        Task<Category?> UpdateAsync(Guid id, UpdateCategoryRequestDto categoryDto);
+
     }
 }

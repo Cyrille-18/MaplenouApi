@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.Category;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
@@ -77,6 +78,28 @@ namespace MaplenouApi.Repository
         public async Task<Category?> GetByIdAsync(Guid id)
         {
             return await this._context.Categories.FirstOrDefaultAsync(c => c.Id == id);
+        }
+
+        /// <summary>
+        /// Updates an existing category asynchronously with the provided data.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to update.</param>
+        /// <param name="categoryDto">The data transfer object containing updated category information.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the updated category if found; otherwise, null.</returns>
+        public async Task<Category?> UpdateAsync(Guid id, UpdateCategoryRequestDto categoryDto)
+        {
+            var existingCategory = this._context.Categories.FirstOrDefault(c => c.Id == id);
+            if (existingCategory == null)
+            {
+                return null;
+            }
+
+            existingCategory.Name = categoryDto.Name;
+            existingCategory.Description = categoryDto.Description;
+
+            await this._context.SaveChangesAsync();
+
+            return existingCategory;
         }
     }
 }
