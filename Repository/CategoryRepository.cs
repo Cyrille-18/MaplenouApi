@@ -101,5 +101,24 @@ namespace MaplenouApi.Repository
 
             return existingCategory;
         }
+
+        /// <summary>
+        /// Deletes a category by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to delete.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the deleted category if found; otherwise, null.</returns>
+        public async Task<Category?> DeleteAsync(Guid id)
+        {
+            var categoryModel = this._context.Categories.FirstOrDefault(c => c.Id == id);
+            if (categoryModel == null)
+            {
+                return null;
+            }
+
+            this._context.Categories.Remove(categoryModel);
+            await this._context.SaveChangesAsync();
+
+            return categoryModel;
+        }
     }
 }

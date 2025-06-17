@@ -105,5 +105,23 @@ namespace MaplenouApi.Controllers
 
             return this.Ok(updatedCategory.ToCategoryDto());
         }
+
+        /// <summary>
+        /// Deletes a category with the specified unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to delete.</param>
+        /// <returns>NoContent if successful; otherwise, NotFound.</returns>
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var deletedCategory = await this._categoryRepo.DeleteAsync(id);
+            if (deletedCategory == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.NoContent();
+        }
     }
 }
