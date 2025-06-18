@@ -1,4 +1,8 @@
-﻿using System;
+﻿// <copyright file="20250618153837_CreateSuppliersTable.cs" company="Maplenou">
+// Copyright © Maplenou 2025
+// </copyright>
+
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -18,7 +22,7 @@ namespace MaplenouApi.Migrations
                     SupplierId = table.Column<Guid>(type: "uuid", nullable: false),
                     FullName = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                 },
                 constraints: table =>
                 {
@@ -33,7 +37,7 @@ namespace MaplenouApi.Migrations
                     SupplierId = table.Column<Guid>(type: "uuid", nullable: false),
                     SupplierPrice = table.Column<float>(type: "real", nullable: false),
                     Quantity = table.Column<int>(type: "integer", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                    CreatedOn = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                 },
                 constraints: table =>
                 {
