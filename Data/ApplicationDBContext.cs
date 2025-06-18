@@ -46,6 +46,16 @@ namespace MaplenouApi.Data
         public DbSet<Category> Categories { get; set; }
 
         /// <summary>
+        /// Gets or sets the Suppliers table.
+        /// </summary>
+        public DbSet<Supplier> Suppliers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ProductSuppliers table.
+        /// </summary>
+        public DbSet<ProductSupplier> ProductSuppliers { get; set; }
+
+        /// <summary>
         /// Configures the relationships and schema.
         /// </summary>
         /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
@@ -73,6 +83,20 @@ namespace MaplenouApi.Data
                 .WithOne(s => s.Category)
                 .HasForeignKey(s => s.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            // Many-to-many relationship between Products and Suppliers
+            modelBuilder.Entity<ProductSupplier>()
+                .HasKey(ps => new { ps.ProductId, ps.SupplierId });
+
+            modelBuilder.Entity<ProductSupplier>()
+                .HasOne(ps => ps.Product)
+                .WithMany(p => p.ProductSuppliers)
+                .HasForeignKey(ps => ps.ProductId);
+
+            modelBuilder.Entity<ProductSupplier>()
+                .HasOne(ps => ps.Supplier)
+                .WithMany(s => s.ProductSuppliers)
+                .HasForeignKey(ps => ps.SupplierId);
         }
     }
 }

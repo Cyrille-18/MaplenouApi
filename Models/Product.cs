@@ -55,6 +55,11 @@ namespace MaplenouApi.Models
         public Subcategory? Subcategory { get; set; }
 
         /// <summary>
+        /// Gets or sets the list of suppliers associated with the product.
+        /// </summary>
+        public List<ProductSupplier> ProductSuppliers { get; set; } = new();
+
+        /// <summary>
         /// Gets or sets Creation Date.
         /// </summary>
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
