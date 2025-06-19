@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.Subcategory;
+using MaplenouApi.Dtos.Supplier;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
@@ -71,6 +73,29 @@ namespace MaplenouApi.Repository
         public async Task<Supplier?> GetByIdAsync(Guid id)
         {
             return await this._context.Suppliers.FirstOrDefaultAsync(sp => sp.SupplierId == id);
+        }
+
+        /// <summary>
+        /// Updates an existing supplier asynchronously with the provided data.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier to update.</param>
+        /// <param name="supplierDto">The DTO containing updated supplier information.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the updated supplier if found; otherwise, null.
+        /// </returns>
+        public async Task<Supplier?> UpdateAsync(Guid id, UpdateSupplierRequestDto supplierDto)
+        {
+            var existingSupplier = await this._context.Suppliers.FirstOrDefaultAsync(sp => sp.SupplierId == id);
+            if (existingSupplier == null)
+            {
+                return null;
+            }
+
+            existingSupplier.FullName = supplierDto.FullName;
+            existingSupplier.PhoneNumber = supplierDto.PhoneNumber;
+
+            await this._context.SaveChangesAsync();
+            return existingSupplier;
         }
     }
 }
