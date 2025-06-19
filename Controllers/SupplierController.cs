@@ -81,5 +81,30 @@ namespace MaplenouApi.Controllers
             var createdSupplierDto = supplierModel.ToSupplierDto();
             return this.CreatedAtAction(nameof(this.GetById), new { id = createdSupplierDto.SupplierId }, createdSupplierDto);
         }
+
+        /// <summary>
+        /// Updates an existing supplier with the specified ID using the provided supplier data.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier to update.</param>
+        /// <param name="supplierDto">The supplier data transfer object containing the updated information.</param>
+        /// <returns>The updated supplier DTO if successful; otherwise, NotFound or BadRequest.</returns>
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateSupplierRequestDto supplierDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            var supplierModel = await this._supplierRepo.UpdateAsync(id, supplierDto);
+
+            if (supplierModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(supplierModel.ToSupplierDto());
+        }
     }
 }

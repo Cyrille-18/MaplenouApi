@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.Supplier;
 using MaplenouApi.Helpers;
 using MaplenouApi.Models;
 
@@ -36,5 +37,13 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the supplier.</param>
         /// <returns>The supplier with the specified ID, or null if not found.</returns>
         Task<Supplier?> GetByIdAsync(Guid id);
+
+        /// <summary>
+        /// Updates an existing supplier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier to update.</param>
+        /// <param name="supplierDto">The DTO containing updated supplier information.</param>
+        /// <returns>The updated supplier, or null if not found.</returns>
+        Task<Supplier?> UpdateAsync(Guid id, UpdateSupplierRequestDto supplierDto);
     }
 }
