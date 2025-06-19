@@ -62,5 +62,15 @@ namespace MaplenouApi.Repository
                         .Take(queryObject.PageSize)
                         .ToListAsync();
         }
+
+        /// <summary>
+        /// Retrieves a supplier by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the supplier if found; otherwise, null.</returns>
+        public async Task<Supplier?> GetByIdAsync(Guid id)
+        {
+            return await this._context.Suppliers.FirstOrDefaultAsync(sp => sp.SupplierId == id);
+        }
     }
 }

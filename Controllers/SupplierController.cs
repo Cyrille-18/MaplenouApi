@@ -46,6 +46,24 @@ namespace MaplenouApi.Controllers
         }
 
         /// <summary>
+        /// Retrieves a supplier by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier.</param>
+        /// <returns>The supplier DTO if found; otherwise, NotFound.</returns>
+        [HttpGet]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> GetById(Guid id)
+        {
+            var supplier = await this._supplierRepo.GetByIdAsync(id);
+            if (supplier == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(supplier.ToSupplierDto());
+        }
+
+        /// <summary>
         /// Creates a new supplier using the provided supplier data.
         /// </summary>
         /// <param name="supplierDto">The supplier data transfer object containing the supplier information.</param>
@@ -61,7 +79,7 @@ namespace MaplenouApi.Controllers
             var supplierModel = supplierDto.ToSupplierFromCreateDto();
             await this._supplierRepo.CreateAsync(supplierModel);
             var createdSupplierDto = supplierModel.ToSupplierDto();
-            return this.Ok(createdSupplierDto);
+            return this.CreatedAtAction(nameof(this.GetById), new { id = createdSupplierDto.SupplierId }, createdSupplierDto);
         }
     }
 }
