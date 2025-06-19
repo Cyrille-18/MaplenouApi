@@ -45,6 +45,27 @@ namespace MaplenouApi.Repository
         }
 
         /// <summary>
+        /// Deletes a supplier by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier to delete.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the deleted supplier if found; otherwise, null.
+        /// </returns>
+        public async Task<Supplier?> DeleteAsync(Guid id)
+        {
+            var supplierModel = await this._context.Suppliers.FirstOrDefaultAsync(sp => sp.SupplierId == id);
+            if (supplierModel == null)
+            {
+                return null;
+            }
+
+            this._context.Suppliers.Remove(supplierModel);
+            await this._context.SaveChangesAsync();
+
+            return supplierModel;
+        }
+
+        /// <summary>
         /// Retrieves a paginated list of suppliers based on the specified query object.
         /// </summary>
         /// <param name="queryObject">The query object containing filter and pagination parameters.</param>
