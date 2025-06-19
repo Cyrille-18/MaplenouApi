@@ -22,5 +22,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="queryObject">The query object containing filter parameters.</param>
         /// <returns>A list of suppliers matching the query.</returns>
         public Task<List<Supplier>> GetAllAsync(SupplierQueryObject queryObject);
+
+        /// <summary>
+        /// Creates a new supplier asynchronously.
+        /// </summary>
+        /// <param name="supplierModel">The supplier model to create.</param>
+        /// <returns>The created supplier.</returns>
+        Task<Supplier> CreateAsync(Supplier supplierModel);
     }
 }

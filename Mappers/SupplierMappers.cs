@@ -31,5 +31,20 @@ namespace MaplenouApi.Mappers
                 CreatedOn = supplierModel.CreatedOn,
             };
         }
+
+        /// <summary>
+        /// Converts a <see cref="CreateSupplierRequestDto"/> to a <see cref="Supplier"/> model.
+        /// </summary>
+        /// <param name="supplierRequestDto">The DTO containing supplier creation data.</param>
+        /// <returns>A new <see cref="Supplier"/> instance populated from the DTO.</returns>
+        public static Supplier ToSupplierFromCreateDto(this CreateSupplierRequestDto supplierRequestDto)
+        {
+            return new Supplier
+            {
+                FullName = supplierRequestDto.FullName,
+                PhoneNumber = supplierRequestDto.PhoneNumber,
+                ProductSuppliers = new List<ProductSupplier>(), // Initialize to avoid null reference
+            };
+        }
     }
 }
