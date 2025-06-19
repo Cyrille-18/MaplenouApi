@@ -14,6 +14,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MaplenouApi.Repository
 {
+    /// <summary>
+    /// Repository class for managing supplier data.
+    /// </summary>
     public class SupplierRepository : ISupplierRepository
     {
         private readonly ApplicationDBContext _context;
@@ -25,6 +28,18 @@ namespace MaplenouApi.Repository
         public SupplierRepository(ApplicationDBContext context)
         {
             this._context = context;
+        }
+
+        /// <summary>
+        /// Creates a new supplier asynchronously and saves it to the database.
+        /// </summary>
+        /// <param name="supplierModel">The supplier model to create.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the created supplier.</returns>
+        public async Task<Supplier> CreateAsync(Supplier supplierModel)
+        {
+            await this._context.Suppliers.AddAsync(supplierModel);
+            await this._context.SaveChangesAsync();
+            return supplierModel;
         }
 
         /// <summary>
