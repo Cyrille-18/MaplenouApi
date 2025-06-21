@@ -25,14 +25,17 @@ namespace MaplenouApi.Controllers
     public class SubcategoryController : ControllerBase
     {
         private readonly ISubcategoryRepository _subcategoryRepo;
+        private readonly ICategoryRepository _categoryRepo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="SubcategoryController"/> class.
         /// </summary>
         /// <param name="subcategoryRepo">The repository for subcategory operations.</param>
-        public SubcategoryController(ISubcategoryRepository subcategoryRepo)
+        /// <param name="categoryRepo">The repository for category operations.</param>
+        public SubcategoryController(ISubcategoryRepository subcategoryRepo, ICategoryRepository categoryRepo)
         {
             this._subcategoryRepo = subcategoryRepo;
+            this._categoryRepo = categoryRepo;
         }
 
         /// <summary>
@@ -68,14 +71,25 @@ namespace MaplenouApi.Controllers
         /// <summary>
         /// Creates a new subcategory.
         /// </summary>
-        /// <param name="subcategoryDto">The DTO containing subcategory creation data.</param>
-        /// <returns>An IActionResult indicating the result of the creation operation.</returns>
+        /// <param name="subcategoryDto">The DTO containing the subcategory data to create.</param>
+        /// <returns>An IActionResult indicating the result of the create operation.</returns>
         [HttpPost]
         public async Task<IActionResult> CreateAsync([FromBody] CreateSubcategoryRequestDto subcategoryDto)
         {
             if (!this.ModelState.IsValid)
             {
                 return this.BadRequest(this.ModelState);
+            }
+
+            if (await this._subcategoryRepo.SubcategoryExistsByNameAsync(subcategoryDto.Name, subcategoryDto.CategoryId))
+            {
+                this.ModelState.AddModelError("Name", $"A subcategory with the name '{subcategoryDto.Name}' already exists in the selected category.");
+                return this.BadRequest(this.ModelState);
+            }
+
+            if (!await this._categoryRepo.CategoryExistsAsync(subcategoryDto.CategoryId))
+            {
+                return this.NotFound("Specified category not found");
             }
 
             var subcategoryModel = subcategoryDto.ToSubcategoryFromCreateDto();

@@ -28,6 +28,7 @@ namespace MaplenouApi.Mappers
             {
                 Name = subcategoryRequestDto.Name,
                 Description = subcategoryRequestDto.Description,
+                CategoryId = subcategoryRequestDto.CategoryId,
                 IsActive = subcategoryRequestDto.IsActive,
             };
         }

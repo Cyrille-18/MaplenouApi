@@ -119,5 +119,17 @@ namespace MaplenouApi.Repository
 
             return subcategoryModel;
         }
+
+        /// <summary>
+        /// Asynchronously checks if a subcategory exists by its name.
+        /// </summary>
+        /// <param name="name">The name of the subcategory to check for existence.</param>
+        /// <param name="categoryId">The unique identifier of the category to which the subcategory belongs.</param>
+        /// <returns><c>true</c> if a subcategory with the specified name exists; otherwise, <c>false</c>.</returns>
+        public async Task<bool> SubcategoryExistsByNameAsync(string name, Guid categoryId)
+        {
+            return await this._context.Subcategories
+                .AnyAsync(s => s.Name.ToLower() == name.ToLower() && s.CategoryId == categoryId);
+        }
     }
 }
