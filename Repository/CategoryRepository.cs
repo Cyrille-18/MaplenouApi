@@ -120,5 +120,15 @@ namespace MaplenouApi.Repository
 
             return categoryModel;
         }
+
+        /// <summary>
+        /// Checks asynchronously if a category exists by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to check.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains true if the category exists; otherwise, false.</returns>
+        public async Task<bool> CategoryExistsAsync(Guid id)
+        {
+            return await this._context.Categories.AnyAsync(c => c.Id == id);
+        }
     }
 }

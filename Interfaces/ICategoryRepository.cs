@@ -53,5 +53,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the category to delete.</param>
         /// <returns>A task representing the asynchronous operation, with the deleted <see cref="Category"/> entity as the result, or null if not found.</returns>
         Task<Category?> DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Asynchronously checks if a category exists by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the category to check.</param>
+        /// <returns>A task representing the asynchronous operation, with a boolean result indicating whether the category exists.</returns>
+        Task<bool> CategoryExistsAsync(Guid id);
     }
 }

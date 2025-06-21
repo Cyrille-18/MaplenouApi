@@ -52,5 +52,13 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the subcategory to delete.</param>
         /// <returns>The deleted <see cref="Subcategory"/> if found; otherwise, <c>null</c>.</returns>
         Task<Subcategory?> DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Checks if a subcategory exists by its name asynchronously.
+        /// </summary>
+        /// <param name="name">The name of the subcategory to check for existence.</param>
+        /// <param name="categoryId">The unique identifier of the category to which the subcategory belongs.</param>
+        /// <returns><c>true</c> if a subcategory with the specified name exists; otherwise, <c>false</c>.</returns>
+        Task<bool> SubcategoryExistsByNameAsync(string name, Guid categoryId);
     }
 }
