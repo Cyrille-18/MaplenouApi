@@ -52,5 +52,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the supplier to delete.</param>
         /// <returns>The deleted supplier, or null if not found.</returns>
         Task<Supplier?> DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Checks if a supplier exists by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier.</param>
+        /// <returns>True if the supplier exists; otherwise, false.</returns>
+        Task<bool> ExistsById(Guid id);
     }
 }

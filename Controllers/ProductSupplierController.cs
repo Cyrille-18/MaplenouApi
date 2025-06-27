@@ -6,10 +6,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MaplenouApi.Dtos.ProductSupplier;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Mappers;
 using MaplenouApi.Models;
+using MaplenouApi.Repository;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
@@ -23,14 +25,20 @@ namespace MaplenouApi.Controllers
     public class ProductSupplierController : ControllerBase
     {
         private readonly IProductSupplierRepository _productSupplierRepo;
+        private readonly ISupplierRepository _supplierRepo;
+        private readonly IProductRepository _productRepo;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ProductSupplierController"/> class.
         /// </summary>
         /// <param name="productSupplierRepository">The product supplier repository.</param>
-        public ProductSupplierController(IProductSupplierRepository productSupplierRepository)
+        /// <param name="supplierRepository">The supplier repository.</param>
+        /// <param name="productRepository">The product repository.</param>
+        public ProductSupplierController(IProductSupplierRepository productSupplierRepository, ISupplierRepository supplierRepository, IProductRepository productRepository)
         {
             this._productSupplierRepo = productSupplierRepository;
+            this._supplierRepo = supplierRepository;
+            this._productRepo = productRepository;
         }
 
         /// <summary>
@@ -44,6 +52,34 @@ namespace MaplenouApi.Controllers
             var productSuppliers = await this._productSupplierRepo.GetAllAsync(queryObject);
             var productSupplierDtos = productSuppliers.Select(ps => ps.ToProductSupplierDto());
             return this.Ok(productSupplierDtos);
+        }
+
+        /// <summary>
+        /// Creates a new product supplier.
+        /// </summary>
+        /// <param name="productSupplierRequestDto">The product supplier request DTO.</param>
+        /// <returns>The created product supplier DTO.</returns>
+        [HttpPost]
+        public async Task<IActionResult> CreateAsync([FromBody] CreateProductSupplierRequestDto productSupplierRequestDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            if (await this._productRepo.ExistsById(productSupplierRequestDto.ProductId) == false)
+            {
+                return this.NotFound($"Product does not exist.");
+            }
+
+            if (await this._supplierRepo.ExistsById(productSupplierRequestDto.SupplierId) == false)
+            {
+                return this.NotFound($"Supplier does not exist.");
+            }
+
+            var productSupplier = productSupplierRequestDto.ToProductSupplierFromCreateDto();
+            var createdProductSupplier = await this._productSupplierRepo.CreateAsync(productSupplier);
+            return this.Ok(createdProductSupplier.ToProductSupplierDto());
         }
     }
 }

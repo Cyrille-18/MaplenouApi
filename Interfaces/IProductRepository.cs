@@ -52,5 +52,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="id">The unique identifier of the product to delete.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the deleted product if found; otherwise, null.</returns>
         Task<Product?> DeleteAsync(Guid id);
+
+        /// <summary>
+        /// Asynchronously checks if a product exists by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product to check.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains true if the product exists; otherwise, false.</returns>
+        Task<bool> ExistsById(Guid id);
     }
 }
