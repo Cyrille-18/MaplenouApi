@@ -15,6 +15,11 @@ namespace MaplenouApi.Models
     public class ProductSupplier
     {
         /// <summary>
+        /// Gets or sets primary technical key.
+        /// </summary>
+        public Guid Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the unique identifier of the product.
         /// </summary>
         public Guid ProductId { get; set; }

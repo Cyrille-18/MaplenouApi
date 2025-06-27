@@ -25,6 +25,7 @@ namespace MaplenouApi.Mappers
         {
             return new ProductSupplierDto
             {
+                Id = productSupplierModel.Id,
                 ProductId = productSupplierModel.ProductId,
                 SupplierId = productSupplierModel.SupplierId,
                 SupplierPrice = productSupplierModel.SupplierPrice,
