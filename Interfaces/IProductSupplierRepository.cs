@@ -22,5 +22,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="queryObject">The query object containing filter and pagination parameters.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains a list of ProductSupplier entities.</returns>
         Task<List<ProductSupplier>> GetAllAsync(ProductSupplierQueryObject queryObject);
+
+        /// <summary>
+        /// Creates a new ProductSupplier entity in the repository.
+        /// </summary>
+        /// <param name="productSupplierModel">The ProductSupplier model to create.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the created ProductSupplier entity.</returns>
+        Task<ProductSupplier> CreateAsync(ProductSupplier productSupplierModel);
     }
 }

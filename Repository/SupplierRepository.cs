@@ -66,6 +66,16 @@ namespace MaplenouApi.Repository
         }
 
         /// <summary>
+        /// Checks asynchronously if a supplier exists by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the supplier.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains true if the supplier exists; otherwise, false.</returns>
+        public Task<bool> ExistsById(Guid id)
+        {
+            return this._context.Suppliers.AnyAsync(sp => sp.SupplierId == id);
+        }
+
+        /// <summary>
         /// Retrieves a paginated list of suppliers based on the specified query object.
         /// </summary>
         /// <param name="queryObject">The query object containing filter and pagination parameters.</param>

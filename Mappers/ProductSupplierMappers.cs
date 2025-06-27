@@ -32,5 +32,22 @@ namespace MaplenouApi.Mappers
                 CreatedOn = productSupplierModel.CreatedOn ?? DateTime.UtcNow,
             };
         }
+
+        /// <summary>
+        /// Maps a <see cref="CreateProductSupplierRequestDto"/> to a <see cref="ProductSupplier"/> model.
+        /// </summary>
+        /// <param name="productSupplierRequestDto">The DTO containing product supplier creation data.</param>
+        /// <returns>A <see cref="ProductSupplier"/> instance created from the DTO.</returns>
+        public static ProductSupplier ToProductSupplierFromCreateDto(this CreateProductSupplierRequestDto productSupplierRequestDto)
+        {
+            return new ProductSupplier
+            {
+                ProductId = productSupplierRequestDto.ProductId,
+                SupplierId = productSupplierRequestDto.SupplierId,
+                SupplierPrice = productSupplierRequestDto.SupplierPrice,
+                Quantity = productSupplierRequestDto.Quantity,
+                CreatedOn = DateTime.UtcNow, // Set to current time
+            };
+        }
     }
 }

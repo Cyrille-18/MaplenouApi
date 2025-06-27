@@ -45,5 +45,17 @@ namespace MaplenouApi.Repository
                         .Take(queryObject.PageSize)
                         .ToListAsync();
         }
+
+        /// <summary>
+        /// Creates a new <see cref="ProductSupplier"/> entity asynchronously.
+        /// </summary>
+        /// <param name="productSupplierModel">The <see cref="ProductSupplier"/> model to create.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the created <see cref="ProductSupplier"/>.</returns>
+        public async Task<ProductSupplier> CreateAsync(ProductSupplier productSupplierModel)
+        {
+            await this._context.ProductSuppliers.AddAsync(productSupplierModel);
+            await this._context.SaveChangesAsync();
+            return productSupplierModel;
+        }
     }
 }
