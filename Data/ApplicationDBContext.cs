@@ -86,7 +86,7 @@ namespace MaplenouApi.Data
 
             // Many-to-many relationship between Products and Suppliers
             modelBuilder.Entity<ProductSupplier>()
-                .HasKey(ps => new { ps.ProductId, ps.SupplierId });
+                        .HasKey(ps => ps.Id);
 
             modelBuilder.Entity<ProductSupplier>()
                 .HasOne(ps => ps.Product)
@@ -97,6 +97,11 @@ namespace MaplenouApi.Data
                 .HasOne(ps => ps.Supplier)
                 .WithMany(s => s.ProductSuppliers)
                 .HasForeignKey(ps => ps.SupplierId);
+
+            // Unique constraint on ProductId and SupplierId in ProductSupplier
+            modelBuilder.Entity<ProductSupplier>()
+                        .HasIndex(ps => new { ps.ProductId, ps.SupplierId })
+                        .IsUnique();
         }
     }
 }

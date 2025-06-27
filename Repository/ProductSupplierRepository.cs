@@ -57,5 +57,17 @@ namespace MaplenouApi.Repository
             await this._context.SaveChangesAsync();
             return productSupplierModel;
         }
+
+        /// <summary>
+        /// Retrieves a <see cref="ProductSupplier"/> entity by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the <see cref="ProductSupplier"/>.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the <see cref="ProductSupplier"/> if found; otherwise, <c>null</c>.
+        /// </returns>
+        public async Task<ProductSupplier?> GetByIdAsync(Guid id)
+        {
+            return await this._context.ProductSuppliers.FirstOrDefaultAsync(ps => ps.Id == id);
+        }
     }
 }

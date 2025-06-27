@@ -14,6 +14,12 @@ namespace MaplenouApi.Dtos.ProductSupplier
     /// </summary>
     public class ProductSupplierDto
     {
+
+        /// <summary>
+        /// Gets or sets the unique identifier of the product-supplier association.
+        /// </summary>
+        public Guid Id { get; set; }
+
         /// <summary>
         /// Gets or sets the unique identifier of the product.
         /// </summary>

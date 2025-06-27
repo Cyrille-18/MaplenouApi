@@ -29,5 +29,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="productSupplierModel">The ProductSupplier model to create.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the created ProductSupplier entity.</returns>
         Task<ProductSupplier> CreateAsync(ProductSupplier productSupplierModel);
+
+        /// <summary>
+        /// Retrieves a ProductSupplier entity by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the ProductSupplier entity.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the ProductSupplier entity if found; otherwise, null.</returns>
+        Task<ProductSupplier?> GetByIdAsync(Guid id);
     }
 }
