@@ -108,7 +108,7 @@ namespace MaplenouApi.Controllers
         /// <returns>The updated product supplier DTO if successful; otherwise, NotFound or BadRequest.</returns>
         [HttpPut]
         [Route("{id:guid}")]
-        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateProductSupplierRequestDto productSupplierDto)
+        public async Task<IActionResult> Update([FromRoute] Guid id, [FromBody] UpdateProductSupplierRequestDto productSupplierDto)
         {
             if (!this.ModelState.IsValid)
             {
