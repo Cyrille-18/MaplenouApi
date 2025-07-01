@@ -45,5 +45,12 @@ namespace MaplenouApi.Interfaces
         /// <param name="productSupplierRequestDto">The DTO containing updated values for the ProductSupplier entity.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains the updated ProductSupplier entity if found; otherwise, null.</returns>
         Task<ProductSupplier?> UpdateAsync(Guid id, UpdateProductSupplierRequestDto productSupplierRequestDto);
+
+        /// <summary>
+        /// Deletes a ProductSupplier entity by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the ProductSupplier entity to delete.</param>
+        /// <returns>A task that represents the asynchronous operation. The task result contains the deleted ProductSupplier entity if found; otherwise, null.</returns>
+        Task<ProductSupplier?> DeleteAsync(Guid id);
     }
 }
