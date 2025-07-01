@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MaplenouApi.Data;
+using MaplenouApi.Dtos.ProductSupplier;
 using MaplenouApi.Helpers;
 using MaplenouApi.Interfaces;
 using MaplenouApi.Models;
@@ -68,6 +69,33 @@ namespace MaplenouApi.Repository
         public async Task<ProductSupplier?> GetByIdAsync(Guid id)
         {
             return await this._context.ProductSuppliers.FirstOrDefaultAsync(ps => ps.Id == id);
+        }
+
+        /// <summary>
+        /// Updates an existing <see cref="ProductSupplier"/> entity asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the <see cref="ProductSupplier"/> to update.</param>
+        /// <param name="productSupplierRequestDto">The DTO containing updated values for the <see cref="ProductSupplier"/>.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the updated <see cref="ProductSupplier"/> if found; otherwise, <c>null</c>.
+        /// </returns>
+        public async Task<ProductSupplier?> UpdateAsync(Guid id, UpdateProductSupplierRequestDto productSupplierRequestDto)
+        {
+            var existingProductSupplier = await this._context.ProductSuppliers.FirstOrDefaultAsync(ps => ps.Id == id);
+
+            if (existingProductSupplier == null)
+            {
+                return null;
+            }
+
+            existingProductSupplier.ProductId = productSupplierRequestDto.ProductId;
+            existingProductSupplier.SupplierId = productSupplierRequestDto.SupplierId;
+            existingProductSupplier.SupplierPrice = productSupplierRequestDto.SupplierPrice;
+            existingProductSupplier.Quantity = productSupplierRequestDto.Quantity;
+
+            await this._context.SaveChangesAsync();
+
+            return existingProductSupplier;
         }
     }
 }

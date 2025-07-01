@@ -99,5 +99,39 @@ namespace MaplenouApi.Controllers
             var createdProductSupplier = await this._productSupplierRepo.CreateAsync(productSupplier);
             return this.CreatedAtAction(nameof(this.GetById), new { id = createdProductSupplier.Id }, createdProductSupplier.ToProductSupplierDto());
         }
+
+        /// <summary>
+        /// Updates an existing product supplier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product supplier to update.</param>
+        /// <param name="productSupplierDto">The updated product supplier data.</param>
+        /// <returns>The updated product supplier DTO if successful; otherwise, NotFound or BadRequest.</returns>
+        [HttpPut]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateProductSupplierRequestDto productSupplierDto)
+        {
+            if (!this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            if (await this._productRepo.ExistsById(productSupplierDto.ProductId) == false)
+            {
+                return this.NotFound($"Product does not exist.");
+            }
+
+            if (await this._supplierRepo.ExistsById(productSupplierDto.SupplierId) == false)
+            {
+                return this.NotFound($"Supplier does not exist.");
+            }
+
+            var productSupplierModel = await this._productSupplierRepo.UpdateAsync(id, productSupplierDto);
+            if (productSupplierModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.Ok(productSupplierModel.ToProductSupplierDto());
+        }
     }
 }
