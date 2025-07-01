@@ -133,5 +133,23 @@ namespace MaplenouApi.Controllers
 
             return this.Ok(productSupplierModel.ToProductSupplierDto());
         }
+
+        /// <summary>
+        /// Deletes a product supplier by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the product supplier to delete.</param>
+        /// <returns>NoContent if deleted; otherwise, NotFound.</returns>
+        [HttpDelete]
+        [Route("{id:guid}")]
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
+        {
+            var productSupplierModel = await this._productSupplierRepo.DeleteAsync(id);
+            if (productSupplierModel == null)
+            {
+                return this.NotFound();
+            }
+
+            return this.NoContent();
+        }
     }
 }

@@ -97,5 +97,26 @@ namespace MaplenouApi.Repository
 
             return existingProductSupplier;
         }
+
+        /// <summary>
+        /// Deletes a <see cref="ProductSupplier"/> entity by its unique identifier asynchronously.
+        /// </summary>
+        /// <param name="id">The unique identifier of the <see cref="ProductSupplier"/> to delete.</param>
+        /// <returns>
+        /// A task that represents the asynchronous operation. The task result contains the deleted <see cref="ProductSupplier"/> if found; otherwise, <c>null</c>.
+        /// </returns>
+        public async Task<ProductSupplier?> DeleteAsync(Guid id)
+        {
+            var productSupplierModel = await this._context.ProductSuppliers.FirstOrDefaultAsync(ps => ps.Id == id);
+            if (productSupplierModel == null)
+            {
+                return null;
+            }
+
+            this._context.ProductSuppliers.Remove(productSupplierModel);
+            await this._context.SaveChangesAsync();
+
+            return productSupplierModel;
+        }
     }
 }
