@@ -56,6 +56,16 @@ namespace MaplenouApi.Data
         public DbSet<ProductSupplier> ProductSuppliers { get; set; }
 
         /// <summary>
+        /// Gets or sets the Permissions table.
+        /// </summary>
+        public DbSet<Permission> Permissions { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RolePermissions table.
+        /// </summary>
+        public DbSet<RolePermission> RolePermissions { get; set; }
+
+        /// <summary>
         /// Configures the relationships and schema.
         /// </summary>
         /// <param name="modelBuilder">The builder used to construct the model for the context.</param>
@@ -102,6 +112,39 @@ namespace MaplenouApi.Data
             modelBuilder.Entity<ProductSupplier>()
                         .HasIndex(ps => new { ps.ProductId, ps.SupplierId })
                         .IsUnique();
+
+            // convert UserType enum to string in ApplicationUser
+            modelBuilder.Entity<ApplicationUser>()
+                .Property(u => u.UserType)
+                .HasConversion<string>();
+
+            // Many-to-many relationship between Roles and Permissions
+            modelBuilder.Entity<RolePermission>()
+                .HasKey(rp => rp.Id);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Role)
+                .WithMany(r => r.RolePermissions)
+                .HasForeignKey(rp => rp.RoleId);
+
+            modelBuilder.Entity<RolePermission>()
+                .HasOne(rp => rp.Permission)
+                .WithMany(p => p.RolePermissions)
+                .HasForeignKey(rp => rp.PermissionId);
+
+            // Unique constraint on RoleId and PermissionId in RolePermission
+            modelBuilder.Entity<RolePermission>()
+                        .HasIndex(rp => new { rp.RoleId, rp.PermissionId }).IsUnique();
+
+            // Seed initial data for Permissions
+            var permissions = new List<Permission>
+            {
+                new Permission { Id = Guid.NewGuid(), Name = "ViewProducts", Description = "Can view products" },
+                new Permission { Id = Guid.NewGuid(), Name = "CreateProducts", Description = "Can create products" },
+                new Permission { Id = Guid.NewGuid(), Name = "EditProducts", Description = "Can edit products" },
+                new Permission { Id = Guid.NewGuid(), Name = "DeleteProducts", Description = "Can delete products" },
+            };
+            modelBuilder.Entity<Permission>().HasData(permissions);
         }
     }
 }
